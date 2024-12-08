@@ -33,13 +33,17 @@ Estado14 = [10,13,15]
 Estado15 = [11,14]
 
 def GameStart():
-    global Game, Botones, current, GameStatus
+    global Game, Botones, current, GameStatus, Botones
+    if current >= 0 and current < 16:
+        Botones[current].config(bg = "red3")
+
     LabelGanar.config(text="Esperando",bg = "aquamarine")
     random.shuffle(Game)
     for i, boton in enumerate(Botones):
         texto = f"{Game[i]}"
         if texto == "":
             current = i
+            Botones[i].config(bg = "RoyalBlue3")    
         boton.config(text=texto, fg="peach puff")   
     print (current)
     GameStatus = True
@@ -100,12 +104,9 @@ def move(move):
 
 def Act(Valor1,Valor2):
     global Game, Botones, current
-    print(Game)
-    print(GameClear)
     current = Valor1
-    print(current)
-    Botones[Valor1].config(text = "")
-    Botones[Valor2].config(text = f"{Game[Valor1]}")
+    Botones[Valor1].config(text = "",bg = "RoyalBlue3")
+    Botones[Valor2].config(text = f"{Game[Valor1]}",bg = "red3")
     Game[Valor1], Game[Valor2] = Game[Valor2], Game[Valor1]
     Check()
 
@@ -114,7 +115,6 @@ def Check():
     if Game == GameClear:
         GameStatus = False
         LabelGanar.config(text="Ganaste",bg = "gold")
-        print("Ganaste")
     else:
         return(False)
 
